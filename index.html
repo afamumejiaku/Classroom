@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project 1</title>
+    <script src="aframe.js"></script>
+
+    <script>
+      AFRAME.registerComponent('play', {
+        init: function () {
+          var myEl = document.querySelector('#man')
+          this.el.addEventListener('click', function () {
+            myEl.components.sound.playSound()
+          })
+        },
+      })
+    </script>
+
+    <script>
+      AFRAME.registerComponent('play-pause', {
+        init: function () {
+          var myVideo = document.querySelector('#lectures')
+          var videoControls = document.querySelector('#videoControls')
+          this.el.addEventListener('click', function () {
+            if (myVideo.paused) {
+              myVideo.play()
+              videoControls.setAttribute('src', '#pause')
+            } else {
+              myVideo.pause()
+              videoControls.setAttribute('src', '#play')
+            }
+          })
+        },
+      })
+    </script>
+
+    <script src="physics.js"></script>
+  </head>
+
+  <body>
+    <a-scene renderer="antialias: true" physics>
+      <!-- Asset Management System -->
+      <a-assets>
+        <img id="floor" src="Ground.jpg" />
+        <img id="floor-NRM" src="Ground.jpg" />
+        <img id="clear-sunny-sky" src="sky.jpg" />
+        <img id="road" src="road.jpg" />
+        <img id="road-NRM" src="road.jpg" />
+        <img id="tile" src="tiles.jpg" />
+        <img id="tile-NRM" src="tiles.jpg" />
+        <img id="grass" src="Grass.jpg" />
+        <img id="grass-NRM" src="Grass.jpg" />
+        <img id="flagTile" src="flagTile.jpg" />
+        <img id="flagTile-NRM" src="flagTile.jpg" />
+        <img id="classTile" src="floor.jpg" />
+        <img id="classTile-NRM" src="floor.jpg" />
+        <img id="outsidechair" src="outsidechair.jpg" />
+        <img id="outside-chair-NRM" src="outsidechair.jpg" />
+        <img id="wall" src="wall.jpg" />
+        <img id="wall-NRM" src="wall.jpg" />
+        <img id="glasswall" src="glasswall.jpg" />
+        <img id="glasswall-NRM" src="glasswall.jpg" />
+        <img id="ceiling" src="ceiling.jpg" />
+        <img id="ceiling-NRM" src="ceiling.jpg" />
+        <img id="lec" src="lecture.jpg" />
+        <img id="player" src="lectures.png" />
+        <img id="roof" src="roof.jpg" />
+        <img id="roof-NRM" src="roof.jpg" />
+        <audio id="lecture" src="lecture.mp3" loop="true"></audio>
+        <video id="lectures" src="lecture.mp4" loop="true"></video>
+        <a-asset-item id="office" src="office.glb"></a-asset-item>
+        <a-asset-item id="class" src="class.glb"></a-asset-item>
+        <a-asset-item id="man" src="man.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Sky-->
+      <a-sky src="#clear-sunny-sky" rotation="0 0 0"> </a-sky>
+
+      <!-- Ground | Realistic Style-->
+      <a-plane
+        material="color: #FFFFFF;
+                 src: #floor;
+                 repeat: 500 500;
+                 normal-map: #floor-NRM;
+                 normal-texture-repeat: 5000 5000"
+        rotation="-90 0 0"
+        scale="10000 10000 1"
+      >
+      </a-plane>
+
+      <!-- Camera -->
+      <a-entity
+        movement-controls="speed:0.15 constrainToNavMesh: true"
+        position="0 0 2"
+      >
+        <a-entity
+          camera
+          position="0 3 0"
+          look-controls="pointerLockEnabled: true"
+          wasd-controls="acceleration:50; easing:40"
+        >
+          <a-cursor></a-cursor
+          ><a-entity
+            position="0 0 -1"
+            cursor="fuse: true; fuseTimeout: 2500"
+            geometry="primitive:sphere; radius:0.01"
+            material="color:#000000; shader:flat; opacity:0.7"
+          >
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- default light -->
+      <!-- <a-light type="ambient" color="#A9A9A9"></a-light>
+      <a-entity
+        light="directional"
+        color="#FFFFFF"
+        intensity="0.6"
+        castShadow="true"
+        position="-0.5 1 1"
+      ></a-entity>-->
+
+      <!--custom light 
+      <a-light type="ambient" color="#A9A9A9" intensity="01"></a-light>
+      <a-entity
+        light="directional"
+        color="#FFFFFF"
+        intensity="6"
+        castShadow="true"
+        position="0 10000 0"
+      ></a-entity>-->
+
+      <!-- Round About  -->
+
+      <a-cylinder
+        material="
+                 src: #tile;
+                 repeat: 100 100;
+                 normal-map: #tile-NRM;
+                 normal-texture-repeat: 100 100"
+        position="0 0.1 0"
+        radius="15"
+        height="0.01"
+        static-body
+      ></a-cylinder>
+
+      <!-- walk way 1 -->
+      <a-box
+        material="src: #tile;
+                       repeat: 40 100;
+                       normal-map: #tile-NRM;
+                       normal-texture-repeat: 40 100;"
+        height="0.01"
+        width="7"
+        depth="60"
+        position="0 0.01 0"
+        rotation="0 45 0"
+        color="#ffffff"
+        static-body
+      >
+      </a-box>
+
+      <!-- walk way 2 -->
+      <a-box
+        material="src: #tile;
+                             repeat: 40 100;
+                             normal-map: #tile-NRM;
+                             normal-texture-repeat: 40 100;"
+        height="0.01"
+        width="7"
+        depth="60"
+        position="0 0.01 0"
+        rotation="0 -45 0"
+        color="#ffffff"
+        static-body
+      >
+      </a-box>
+
+      <!-- green Grass -->
+      <a-box
+        material="src: #grass;
+                                   repeat: 400 500;
+                                   normal-map: #grass-NRM;
+                                   normal-texture-repeat: 400 500;"
+        height="0.01"
+        width="80"
+        depth="100"
+        position="0 0.005 0"
+        rotation="0 0 0"
+        color="#ffffff"
+        static-body
+      >
+      </a-box>
+
+      <!-- Flag Grass -->
+      <a-cylinder
+        material="src: #grass;
+                 repeat: 100 100;
+                 normal-map: #grass-NRM;
+                 normal-texture-repeat: 1000 1000
+                 normal-scale: 1 -1;
+                 roughness: 0.5"
+        position="0 0.1 0"
+        radius="10"
+        height="0.015"
+        static-body
+      ></a-cylinder>
+
+      <!-- Flag Enivornment -->
+      <a-cylinder
+        material="src: #flagTile;
+                 repeat: 50 50;
+                 normal-map: #flagTile-NRM;
+                 normal-texture-repeat: 50 50
+                 normal-scale: 1 1;
+                 roughness: 0.2"
+        position="0 0.1 0"
+        radius="5"
+        height="0.02"
+        static-body
+      ></a-cylinder>
+
+      <!-- Road -->
+      <a-box
+        material="src: #road;
+                 repeat: 2 10000;
+                 normal-map: #road-NRM;
+                 normal-texture-repeat: 10000 10000;
+                 normal-scale: 1 1;
+                 roughness: 1.2"
+        height="0.2"
+        width="10"
+        depth="10000"
+        position="0 0.1 0"
+        static-body
+      >
+      </a-box>
+
+      <!-- Traffic Light  1-->
+      <a-entity position="-5 0 -15">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-box
+          color="#000000"
+          depth="1"
+          height="3.5"
+          width="1"
+          position="0 4.2 0"
+          static-body
+        ></a-box>
+        <a-cylinder
+          color="green"
+          position="0 3.1 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="yellow"
+          position="0 4.2 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="#ff0000"
+          position="0 5.3 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <!-- <a-light
+          type="spot"
+          intensity="20"
+          color="green"
+          position="0 3.115 0"
+          distance="4"
+          decay="2"
+        >
+        </a-light>
+        <a-light
+          type="spot"
+          intensity="20"
+          color="yellow"
+          position="0 4.183 0"
+          distance="4"
+          decay="2"
+        >
+        </a-light>
+        <a-light
+          type="spot"
+          intensity="20"
+          color="red"
+          position="0 5.35 0"
+          distance="4"
+          decay="2"
+        >
+        </a-light>-->
+      </a-entity>
+
+      <!-- Traffic Light 2-->
+      <a-entity position="5 0 15">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-box
+          color="#000000"
+          depth="1"
+          height="3.5"
+          width="1"
+          position="0 4.2 0"
+          static-body
+        ></a-box>
+        <a-cylinder
+          color="green"
+          position="0 3.1 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="yellow"
+          position="0 4.2 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="#ff0000"
+          position="0 5.3 0"
+          radius="0.4"
+          height="1.1"
+          rotation="90 90 90"
+          static-body
+        ></a-cylinder>
+        <!--<a-light
+          type="spot"
+          intensity="2"
+          color="green"
+          position="0 3.115 0"
+          distance="10"
+          decay="2"
+        >
+        </a-light>
+        <a-light
+          type="spot"
+          intensity="2"
+          color="yellow"
+          position="0 4.183 0"
+          distance="10"
+          decay="2"
+        >
+        </a-light>
+        <a-light
+          type="spot"
+          intensity="2"
+          color="red"
+          position="0 5.350 0"
+          distance="10"
+          decay="2"
+        >
+        </a-light>-->
+      </a-entity>
+
+      <!-- Street Light  1-->
+      <a-entity position="0 0 -15">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.2"
+          radius-top="0.7"
+          height="0.7"
+          position="0 5.3 0"
+          transparent="false"
+          opacity="0.4"
+          static-body
+        >
+          <!-- <a-entity
+            light="type: spot; angle: 30"
+            position="0 -0.35 -15"
+            decay="1.1"
+            distance="5"
+            penumbra="50"
+          ></a-entity-->
+          ></a-cone
+        >
+      </a-entity>
+
+      <!-- Street Light 2-->
+      <a-entity position="0 0 -35">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.2"
+          radius-top="0.7"
+          height="0.7"
+          position="0 5.3 0"
+          transparent="false"
+          opacity="0.9"
+          static-body
+        >
+          <!--<a-entity
+            light="type: spot; angle: 30"
+            position="0 -0.35 -35"
+            decay="1.1"
+            distance="5"
+            penumbra="50"
+          ></a-entity>-->
+        </a-cone>
+      </a-entity>
+
+      <!-- Street Light 3-->
+      <a-entity position="0 0 15">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.2"
+          radius-top="0.7"
+          height="0.7"
+          position="0 5.3 0"
+          transparent="false"
+          opacity="0.9"
+          static-body
+          ><!--<a-entity
+            light="type: spot; angle: 30"
+            position="0 -0.35 15"
+            decay="1.1"
+            distance="5"
+            penumbra="50"
+          ></a-entity>-->
+        </a-cone>
+      </a-entity>
+
+      <!-- Street Light 4-->
+      <a-entity position="0 0 35">
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.4"
+          radius-top="0.2"
+          height="10"
+          static-body
+        ></a-cone>
+        <a-cone
+          color="#caccce"
+          radius-bottom="0.2"
+          radius-top="0.7"
+          height="0.7"
+          position="0 5.3 0"
+          transparent="false"
+          opacity="0.9"
+          static-body
+          ><!--<a-entity
+            light="type: spot; angle: 30"
+            position="0 -0.35 35"
+            decay="1.1"
+            distance="5"
+            penumbra="50"
+          ></a-entity>-->
+        </a-cone>
+      </a-entity>
+
+      <!-- Building 1 -->
+      <a-entity position="25 0 25">
+        <a-box
+          material="src: #classTile;
+                   repeat: 30 20;
+                   normal-map: #classTile-NRM;
+                   normal-texture-repeat: 30 20;
+                   normal-scale: 1 -1;
+                   roughness: 0.5"
+          height="0.2"
+          width="20"
+          depth="30"
+          position="0 0 0"
+          static-body
+        >
+        </a-box>
+        <!--Lecture Switch-->
+        <a-box
+          id="lecture Switch"
+          geometry="primitive: box"
+          material="src: #lec"
+          sound="src: #lecture; on: click"
+          position="9.1 3 -12.5"
+          height="2"
+          width="0.3"
+          depth="2"
+          static-body
+        >
+        </a-box>
+
+        <!--White Board-->
+        <a-box
+          colour="white"
+          position="9.1 4 5"
+          height="5"
+          width="0.4"
+          depth="8"
+          static-body
+          ><a-entity rotate="90 270 90">
+            <!--Video 16:9-->
+            <a-video
+              src="#lectures"
+              width="8"
+              height="4.5"
+              position="-0.3 0 0"
+              rotation="-0 -90 0"
+            >
+              <a-image
+                id="videoControls"
+                src="player"
+                position="0 -3 0"
+                play-pause
+              ></a-image
+              >-->
+            </a-video></a-entity
+          >
+        </a-box>
+
+        <a-entity
+          animation="property: position; to: 5 0 0; dur: 15000;  loop: true; dir:alternate; easing: linear"
+        >
+          <a-entity
+            gltf-model="#man"
+            rotation="0 90 0"
+            scale="0.7 1.0 0.7"
+            rotation="0 0 0"
+            animation="property: rotation; to: 0 270 0; easing: linear;loop: true; dur: 15000; dir:alternate "
+            position="3 0 5 "
+            rotation="0 0 0"
+            static-body
+          >
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-5.6 0 1 "
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-2 0 1"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-5.6 0 6"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-2 0 6"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-5.6 0 11"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#class"
+          rotation="0 90 0"
+          scale="2 2 2"
+          position="-2 0 11"
+          static-body
+        ></a-entity>
+
+        <a-box
+          material="src: #ceiling;
+                           repeat: 20 30;
+                           normal-map: #ceiling-NRM;
+                           normal-texture-repeat: 20 30;
+                           normal-scale: 1 -1;
+                           roughness: 0.5"
+          height="0.1"
+          width="20"
+          depth="30"
+          position="0 8 0"
+          static-body
+        >
+          <!-- <a-entity position="5 -0.4 9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="5 -0.4 -9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="-5 -0.4 9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="-5 -0.4 -9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>-->
+        </a-box>
+        <a-box
+          material="src: #roof;
+                           repeat: 30 20;
+                           normal-map: #roof-NRM;
+                           normal-texture-repeat: 30 20;
+                           normal-scale: 1 -1;
+                           roughness: 0.5"
+          height="0.3"
+          width="20"
+          depth="30"
+          position="0 8.11 0"
+          colour="black"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="10"
+          depth="1"
+          position="5 0 -14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="10"
+          depth="1"
+          position="-5 0 -5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+        <a-box
+          height="4"
+          width="20"
+          depth="1"
+          position="0 0 14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="-8 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.5"
+          position="-4 4 14.75"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:-4 6 14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:-4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="0 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth=".6"
+          position="4 4 14.5"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:4 6 14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="8 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="-8 4 -5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.5"
+          position="-4 4 -5"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:-4 6 -5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:-4 4 -5; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="2"
+          depth="1"
+          position="1 4 -14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="2 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="2"
+          depth="1"
+          position="-1 4 -5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="2 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.6"
+          position="4 4 -14.5"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:4 6 -14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to: 4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="8 4 -14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="20"
+          depth="1"
+          position="0 7 14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="10"
+          depth="1"
+          position="5 7 -14.5"
+          src="wall.jpg"
+          repeat="10 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="10 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="10"
+          depth="1"
+          position="-5 7 -5"
+          src="wall.jpg"
+          repeat="10 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="10 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="30"
+          position="9.5 2 0"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="1"
+          depth="20"
+          position="-9.5 7 5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="1"
+          depth="10"
+          position="0 7 -10"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="-9.5 2 12.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="8"
+          width="1"
+          depth="5"
+          position="-9.5 2 7.5"
+          src="glasswall.jpg"
+          opacity="0.9"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="-9.5 2 2.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="8"
+          width="1"
+          depth="5"
+          position="-9.5 2 -2.5"
+          src="glasswall.jpg"
+          opacity="0.9"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="0 2 -7.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="6"
+          width="0.3"
+          depth="2"
+          position="0 3 -11"
+          src="door.jpg"
+          animation="property: rotation; to:0 90 0; easing: linear; dur: 3000;startEvents: fusing"
+          animation__2="property: rotation; to:0 0 0; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="6"
+          width="0.3"
+          depth="2"
+          position="0 3 -13"
+          src="door.jpg"
+          animation="property: rotation; to:0 -90 0; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: rotation; to:0 0 0; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-entity position="-7.5 0 -12.5">
+          <a-cylinder
+            src="wall.jpg"
+            repeat="4 2"
+            normal-map="#wall-NRM"
+            normal-texture-repeat="1 1"
+            normal-scale="1 1"
+            roughness="0.5"
+            radius="1"
+            segments-radial="8"
+            Height="4"
+            position="0 4 0"
+            static-body
+          ></a-cylinder>
+          <a-cylinder
+            src="wall.jpg"
+            repeat="1 1"
+            normal-map="#wall-NRM"
+            normal-texture-repeat="4 2"
+            roughness="0.5"
+            radius="1.5"
+            segments-radial="8"
+            Height="2"
+            position="0 7 0"
+            static-body
+          ></a-cylinder>
+          <a-cylinder
+            src="wall.jpg"
+            repeat="4 2"
+            normal-map="#wall-NRM"
+            normal-texture-repeat="4 2"
+            roughness="0.5"
+            radius="2"
+            segments-radial="8"
+            Height="4"
+            position="0 2 0"
+            static-body
+          ></a-cylinder>
+        </a-entity>
+      </a-entity>
+
+      <!-- Building 2 -->
+      <a-entity position="-25 0 -25">
+        <a-box
+          material="src: #classTile;
+                   repeat: 30 20;
+                   normal-map: #classTile-NRM;
+                   normal-texture-repeat: 30 20;
+                   normal-scale: 1 -1;
+                   roughness: 0.5"
+          height="0.2"
+          width="20"
+          depth="30"
+          position="0 0 0"
+          static-body
+        >
+        </a-box>
+
+        <a-entity
+          gltf-model="#office"
+          rotation="0 90 0"
+          scale="3 3 3"
+          position="0 0 -6.2"
+          static-body
+        ></a-entity>
+
+        <a-box
+          material="src: #ceiling;
+                           repeat: 20 30;
+                           normal-map: #ceiling-NRM;
+                           normal-texture-repeat: 20 30;
+                           normal-scale: 1 -1;
+                           roughness: 0.5"
+          height="0.1"
+          width="20"
+          depth="30"
+          position="0 8 0"
+          static-body
+        >
+          <!--<a-entity position="5 -0.4 9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="5 -0.4 -9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="-5 -0.4 9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity position="-5 -0.4 -9">
+            <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
+            <a-entity
+              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
+              rotation="0 0 90"
+              angle="60"
+              position="0 -0.7 0"
+            >
+            </a-entity>
+          </a-entity>-->
+        </a-box>
+        <a-box
+          material="src: #roof;
+                           repeat: 30 20;
+                           normal-map: #roof-NRM;
+                           normal-texture-repeat: 30 20;
+                           normal-scale: 1 -1;
+                           roughness: 0.5"
+          height="0.3"
+          width="20"
+          depth="30"
+          position="0 8.11 0"
+          colour="black"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="20"
+          depth="1"
+          position="0 0 14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+        <a-box
+          height="4"
+          width="20"
+          depth="1"
+          position="0 0 -14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="8 4 -14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.5"
+          position="4 4 -14.75"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:4 6 -14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:4 4 -14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="0 4 -14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.6"
+          position="-4 4 -14.5"
+          src="window.jpg"
+          roughness="0.5"
+          opacity="0.7"
+          animation="property: position; to:-4 6 -14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:-4 4 -14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="-8 4 -14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="8 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.5"
+          position="4 4 14.75"
+          src="window.jpg"
+          opacity="0.7"
+          animation="property: position; to:4 6 14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="0 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="2 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="0.8"
+          position="-4 4 14.75"
+          src="window.jpg"
+          opacity="0.7"
+          animation="property: position; to:-4 6 14.5; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: position; to:-4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="4"
+          width="4"
+          depth="1"
+          position="-8 4 14.5"
+          src="wall.jpg"
+          repeat="4 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="4 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="20"
+          depth="1"
+          position="0 7 -14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="20"
+          depth="1"
+          position="0 7 14.5"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="30"
+          position="-9.5 2 0"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="2"
+          width="1"
+          depth="30"
+          position="9.5 7 0"
+          src="wall.jpg"
+          repeat="20 4"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="20 4"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="9.5 2 -12.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          static-body
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="8"
+          width="1"
+          depth="5"
+          position="9.5 2 -7.5"
+          src="glasswall.jpg"
+          opacity="0.9"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="9.5 2 -2.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="8"
+          width="1"
+          depth="5"
+          position="9.5 2 2.5"
+          src="glasswall.jpg"
+          opacity="0.9"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="12"
+          width="1"
+          depth="5"
+          position="9.5 2 7.5"
+          src="wall.jpg"
+          repeat="6 2"
+          normal-map="#wall-NRM"
+          normal-texture-repeat="6 2"
+          normal-scale="1 -1"
+          roughness="0.5"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="6"
+          width="0.3"
+          depth="2"
+          position="9.5 3 11"
+          src="door.jpg"
+          animation="property: rotation; to:0 90 0; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: rotation; to:0 0 0; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+
+        <a-box
+          height="6"
+          width="0.3"
+          depth="2"
+          position="9.5 3 13"
+          src="door.jpg"
+          animation="property: rotation; to:0 -90 0; easing: linear; dur: 3000; startEvents: fusing"
+          animation__2="property: rotation; to:0 0 0; easing: linear; dur: 3000;startEvents: click"
+          static-body
+        >
+        </a-box>
+      </a-entity>
+
+      <!-- Car Park  1-->
+      <a-entity position="25 0 -25">
+        <a-box
+          material="src: #road;
+                             repeat: 4 30;
+                             normal-map: #road-NRM;
+                             normal-texture-repeat: 30 30;
+                             normal-scale: 1 -1;
+                             roughness: 0.5"
+          height="0.2"
+          width="20"
+          depth="30"
+          position="0 0 0"
+          static-body
+        >
+        </a-box>
+      </a-entity>
+
+      <!-- Car Park 2 -->
+      <a-entity position="-25 0 25">
+        <a-box
+          material="src: #road;
+                   repeat: 4 30;
+                   normal-map: #road-NRM;
+                   normal-texture-repeat: 30 30;
+                   normal-scale: 1 -1;
+                   roughness: 0.5"
+          height="0.2"
+          width="20"
+          depth="30"
+          position="0 0 0"
+          static-body
+        >
+        </a-box>
+      </a-entity>
+
+      <!-- Chair 1 -->
+      <a-entity position="11 0 25">
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0 0.5 0"
+          static-body
+        >
+        </a-box>
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0.5 0.5 0"
+          rotation="0 0 75"
+          static-body
+        >
+        </a-box>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+      </a-entity>
+
+      <!-- Chair 3 -->
+      <a-entity position="11 0 -25">
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0 0.5 0"
+          static-body
+        >
+        </a-box>
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0.5 0.5 0"
+          rotation="0 0 75"
+          static-body
+        >
+        </a-box>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+      </a-entity>
+
+      <!-- Chair 5 -->
+      <a-entity position="-11 0 -25">
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0 0.5 0"
+          static-body
+        >
+        </a-box>
+        <a-box
+          material="src: #outsidechair;opacity : 0.9;"
+          height="0.2"
+          width="1"
+          depth="2.5"
+          position="0.5 0.5 0"
+          rotation="0 0 75"
+          static-body
+        >
+        </a-box>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+        <a-cylinder
+          color="silver"
+          height="0.5"
+          radius="0.2"
+          position="-0.4 0 -1.05"
+          static-body
+        ></a-cylinder>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
