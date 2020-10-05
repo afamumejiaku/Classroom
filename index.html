@@ -3,6 +3,11 @@
   <head>
     <title>Project 1</title>
     <script src="aframe.js"></script>
+    <script src="physics.js"></script>
+    <script src="aframe-event-set-component.min.js"></script>
+    <script src="aframe-extras.min.js"></script>
+    <script src="super-hands.min.js"></script>
+    <script src="aframe-look-at-component.min.js"></script>
 
     <script>
       AFRAME.registerComponent('play', {
@@ -32,8 +37,6 @@
         },
       })
     </script>
-
-    <script src="physics.js"></script>
   </head>
 
   <body>
@@ -65,11 +68,36 @@
         <img id="player" src="lectures.png" />
         <img id="roof" src="roof.jpg" />
         <img id="roof-NRM" src="roof.jpg" />
+        <img id="tommy" src="tommy.png" />
+        <img id="deptchair" src="deptchair.png" />
+        <img id="chen" src="chen.png" />
+        <img id="watson" src="watson.png" />
+        <img id="kimber" src="kimber.png" />
+        <img id="fang" src="fang.png" />
+        <img id="gelfond" src="gelfond.png" />
+        <img id="serwadda" src="Serwadda.png" />
+        <img id="covid1" src="covid1.jpg" />
+        <img id="covid2" src="covid2.jpg" />
+        <img id="ttu1" src="TTU.jpg" />
+        <img id="ttu2" src="ttu2.png" />
+        <img id="welcome" src="welcome.jpg" />
+        <img id="covidswitch" src="covidswitch.png" />
+        <img id="normalswitch" src="normalswitch.png" />
+        <img id="closed" src="closed.png" />
+        <img id="footsteps" src="footsteps.png" />
+
+        <img id="enter" src="enter.jpg" />
+        <img id="exit" src="exit.gif" />
+        <img id="lightswitch" src="light switch.webp" />
+
         <audio id="lecture" src="lecture.mp3" loop="true"></audio>
         <video id="lectures" src="lecture.mp4" loop="true"></video>
         <a-asset-item id="office" src="office.glb"></a-asset-item>
-        <a-asset-item id="class" src="class.glb"></a-asset-item>
+        <a-asset-item id="fan" src="fan.glb"></a-asset-item>
         <a-asset-item id="man" src="man.glb"></a-asset-item>
+        <a-asset-item id="Chair" src="CHAIR.glb"></a-asset-item>
+        <a-asset-item id="table" src="table.glb"></a-asset-item>
+        <a-asset-item id="desk" src="desk.glb"></a-asset-item>
       </a-assets>
 
       <!-- Sky-->
@@ -87,50 +115,46 @@
       >
       </a-plane>
 
-      <!-- Camera -->
-      <a-entity
-        movement-controls="speed:0.15 constrainToNavMesh: true"
-        position="0 0 2"
-      >
-        <a-entity
-          camera
-          position="0 3 0"
+      <!-- Camera Rig >-->
+      <a-entity id="cam-rig" position="0 4 0">
+        <a-camera
           look-controls="pointerLockEnabled: true"
           wasd-controls="acceleration:50; easing:40"
+          movement-controls="controls: checkpoint"
+          checkpoint-controls="mode: animate"
         >
-          <a-cursor></a-cursor
+          <a-cursor raycaster="showline: false"></a-cursor
           ><a-entity
             position="0 0 -1"
             cursor="fuse: true; fuseTimeout: 2500"
             geometry="primitive:sphere; radius:0.01"
             material="color:#000000; shader:flat; opacity:0.7"
           >
-          </a-entity>
-        </a-entity>
+          </a-entity
+        ></a-camera>
+        <!-- Progressive Controls -->
+        <a-entity progressive-controls></a-entity>
       </a-entity>
 
-      <!-- default light -->
-      <!-- <a-light type="ambient" color="#A9A9A9"></a-light>
+      <a-entity
+        position="0 4.5 -1.5"
+        scale="0.5 2 1"
+        text="value:Please follow the footsteps; color: #212121; align: center; Wrap count: 20; width:1"
+        geometry="primitive: plane; width:auto; height:auto"
+        material="color:#ff0000; shader=flat"
+      ></a-entity>
+
+      <!--  general light -->
+      <a-light type="ambient" color="#A9A9A9"></a-light>
       <a-entity
         light="directional"
         color="#FFFFFF"
         intensity="0.6"
         castShadow="true"
         position="-0.5 1 1"
-      ></a-entity>-->
-
-      <!--custom light 
-      <a-light type="ambient" color="#A9A9A9" intensity="01"></a-light>
-      <a-entity
-        light="directional"
-        color="#FFFFFF"
-        intensity="6"
-        castShadow="true"
-        position="0 10000 0"
-      ></a-entity>-->
+      ></a-entity>
 
       <!-- Round About  -->
-
       <a-cylinder
         material="
                  src: #tile;
@@ -139,7 +163,7 @@
                  normal-texture-repeat: 100 100"
         position="0 0.1 0"
         radius="15"
-        height="0.01"
+        height="0.15"
         static-body
       ></a-cylinder>
 
@@ -149,10 +173,10 @@
                        repeat: 40 100;
                        normal-map: #tile-NRM;
                        normal-texture-repeat: 40 100;"
-        height="0.01"
+        height="0.12"
         width="7"
         depth="60"
-        position="0 0.01 0"
+        position="0 0.1 0"
         rotation="0 45 0"
         color="#ffffff"
         static-body
@@ -165,10 +189,10 @@
                              repeat: 40 100;
                              normal-map: #tile-NRM;
                              normal-texture-repeat: 40 100;"
-        height="0.01"
+        height="0.12"
         width="7"
         depth="60"
-        position="0 0.01 0"
+        position="0 0.1 0"
         rotation="0 -45 0"
         color="#ffffff"
         static-body
@@ -181,10 +205,10 @@
                                    repeat: 400 500;
                                    normal-map: #grass-NRM;
                                    normal-texture-repeat: 400 500;"
-        height="0.01"
+        height="0.05"
         width="80"
         depth="100"
-        position="0 0.005 0"
+        position="0 0.05 0"
         rotation="0 0 0"
         color="#ffffff"
         static-body
@@ -201,8 +225,17 @@
                  roughness: 0.5"
         position="0 0.1 0"
         radius="10"
-        height="0.015"
+        height="0.275"
         static-body
+      >
+        <a-image
+          src="#footsteps"
+          position="1 10 1"
+          checkpoint="offset: 0 -0.5 0"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image
       ></a-cylinder>
 
       <!-- Flag Enivornment -->
@@ -215,7 +248,7 @@
                  roughness: 0.2"
         position="0 0.1 0"
         radius="5"
-        height="0.02"
+        height="0.32"
         static-body
       ></a-cylinder>
 
@@ -227,7 +260,7 @@
                  normal-texture-repeat: 10000 10000;
                  normal-scale: 1 1;
                  roughness: 1.2"
-        height="0.2"
+        height="0.22"
         width="10"
         depth="10000"
         position="0 0.1 0"
@@ -253,56 +286,40 @@
           static-body
         ></a-box>
         <a-cylinder
-          color="green"
+          color="#008000"
           position="0 3.1 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
+          animation="property: material.color; from:#008000; to:#D3D3D3 ; dir:alternate;  loop: true; dur: 9000; easing: easeInOutExpo; delay: 4500"
           static-body
         ></a-cylinder>
         <a-cylinder
-          color="yellow"
+          color="#D3D3D3"
           position="0 4.2 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
           static-body
+          animation="property: material.color; from:#D3D3D3; to: #FFFF00; dir:alternate;  loop: true; dur: 9000; easing: easeInExpo"
         ></a-cylinder>
         <a-cylinder
-          color="#ff0000"
+          color="#D3D3D3"
           position="0 5.3 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
           static-body
+          animation="property: material.color; from:#D3D3D3; to:#FF0000 ; dir:alternate;  loop: true; dur: 9000; easing: easeInOutExpo; delay: 4500"
         ></a-cylinder>
-        <!-- <a-light
-          type="spot"
-          intensity="20"
-          color="green"
-          position="0 3.115 0"
-          distance="4"
-          decay="2"
+        <a-image
+          src="#footsteps"
+          position="-7 5 1"
+          checkpoint="offset: 0 -4 1"
+          look-at="#cam-rig"
+          opacity="0.3"
         >
-        </a-light>
-        <a-light
-          type="spot"
-          intensity="20"
-          color="yellow"
-          position="0 4.183 0"
-          distance="4"
-          decay="2"
-        >
-        </a-light>
-        <a-light
-          type="spot"
-          intensity="20"
-          color="red"
-          position="0 5.35 0"
-          distance="4"
-          decay="2"
-        >
-        </a-light>-->
+        </a-image>
       </a-entity>
 
       <!-- Traffic Light 2-->
@@ -323,56 +340,40 @@
           static-body
         ></a-box>
         <a-cylinder
-          color="green"
+          color=" #008000"
           position="0 3.1 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
           static-body
+          animation="property: material.color; from: #008000; to:#D3D3D3; dir:alternate;  loop: true; dur: 9000; easing: easeInOutExpo; delay: 4500"
         ></a-cylinder>
         <a-cylinder
-          color="yellow"
+          color="#D3D3D3"
           position="0 4.2 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
           static-body
+          animation="property: material.color; from:#D3D3D3; to: #FFFF00; dir:alternate;  loop: true; dur: 9000; easing: easeInExpo"
         ></a-cylinder>
         <a-cylinder
-          color="#ff0000"
+          color="#D3D3D3"
           position="0 5.3 0"
           radius="0.4"
           height="1.1"
           rotation="90 90 90"
           static-body
+          animation="property: material.color; from: #D3D3D3; to: #FF0000; dir:alternate;  loop: true; dur: 9000; easing: easeInOutExpo; delay: 4500"
         ></a-cylinder>
-        <!--<a-light
-          type="spot"
-          intensity="2"
-          color="green"
-          position="0 3.115 0"
-          distance="10"
-          decay="2"
+        <a-image
+          src="#footsteps"
+          position="7 5 1"
+          checkpoint="offset: 0 -4 -1"
+          look-at="#cam-rig"
+          opacity="0.3"
         >
-        </a-light>
-        <a-light
-          type="spot"
-          intensity="2"
-          color="yellow"
-          position="0 4.183 0"
-          distance="10"
-          decay="2"
-        >
-        </a-light>
-        <a-light
-          type="spot"
-          intensity="2"
-          color="red"
-          position="0 5.350 0"
-          distance="10"
-          decay="2"
-        >
-        </a-light>-->
+        </a-image>
       </a-entity>
 
       <!-- Street Light  1-->
@@ -394,15 +395,15 @@
           opacity="0.4"
           static-body
         >
-          <!-- <a-entity
-            light="type: spot; angle: 30"
-            position="0 -0.35 -15"
-            decay="1.1"
-            distance="5"
-            penumbra="50"
-          ></a-entity-->
-          ></a-cone
+        </a-cone>
+        <a-image
+          src="#footsteps"
+          position="1 5 1"
+          checkpoint="offset: 0 -0.5 0"
+          look-at="#cam-rig"
+          opacity="0.3"
         >
+        </a-image>
       </a-entity>
 
       <!-- Street Light 2-->
@@ -424,14 +425,15 @@
           opacity="0.9"
           static-body
         >
-          <!--<a-entity
-            light="type: spot; angle: 30"
-            position="0 -0.35 -35"
-            decay="1.1"
-            distance="5"
-            penumbra="50"
-          ></a-entity>-->
         </a-cone>
+        <a-image
+          src="#footsteps"
+          position="1 5 1"
+          checkpoint="offset: 0 -0.5 0"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
       </a-entity>
 
       <!-- Street Light 3-->
@@ -452,14 +454,16 @@
           transparent="false"
           opacity="0.9"
           static-body
-          ><!--<a-entity
-            light="type: spot; angle: 30"
-            position="0 -0.35 15"
-            decay="1.1"
-            distance="5"
-            penumbra="50"
-          ></a-entity>-->
+        >
         </a-cone>
+        <a-image
+          src="#footsteps"
+          position="1 5 1"
+          checkpoint="offset: 0 -0.5 0"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
       </a-entity>
 
       <!-- Street Light 4-->
@@ -480,18 +484,20 @@
           transparent="false"
           opacity="0.9"
           static-body
-          ><!--<a-entity
-            light="type: spot; angle: 30"
-            position="0 -0.35 35"
-            decay="1.1"
-            distance="5"
-            penumbra="50"
-          ></a-entity>-->
+        >
         </a-cone>
+        <a-image
+          src="#footsteps"
+          position="1 5 1"
+          checkpoint="offset: 0 -0.5 0"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
       </a-entity>
 
       <!-- Building 1 -->
-      <a-entity position="25 0 25">
+      <a-entity position="25 0.1 25">
         <a-box
           material="src: #classTile;
                    repeat: 30 20;
@@ -506,19 +512,226 @@
           static-body
         >
         </a-box>
-        <!--Lecture Switch-->
+
+        <!--Covid Enter and Exit Switches-->
+        <a-image
+          id="enter"
+          src="#enter"
+          position="-10.1 5 -12.5"
+          rotation="0 180 0"
+          visible="false"
+        >
+        </a-image>
+        <a-image
+          id="exit"
+          src="#exit"
+          position="-9.1 5 7.5"
+          rotation="0 180 0"
+          visible="false"
+        >
+        </a-image>
+        <!--Navigation Aid-->
+        <a-image
+          src="#footsteps"
+          position="0 5 -11.5"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <a-image
+          src="#footsteps"
+          position="7.5 5 -11.5"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <a-image
+          src="#footsteps"
+          position="0 5 0"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+        <a-image
+          src="#footsteps"
+          position="0 5 12.5"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <!--light switch-->
         <a-box
-          id="lecture Switch"
-          geometry="primitive: box"
-          material="src: #lec"
-          sound="src: #lecture; on: click"
-          position="9.1 3 -12.5"
-          height="2"
-          width="0.3"
-          depth="2"
-          static-body
+          material="src: #lightswitch"
+          id="lightswitch"
+          position="0.1 5 -9"
+          height="0.6"
+          width="1"
+          depth="0.5"
+          shader="flat"
+          event-set__scrw1="_event: mouseenter; _target: #sww1; 	light.intensity=0"
+          event-set__scrw2="_event: mouseenter; _target: #sww2; light.intensity=0"
+          event-set__scrw3="_event: mouseenter; _target: #sww3; light.intensity=0"
+          event-set__scrw4="_event: mouseenter; _target: #sww4; light.intensity=0"
+          event-set__scrw1="_event: click; _target: #sww1; 	light.intensity=2"
+          event-set__scrw2="_event: click; _target: #sww2; light.intensity=2"
+          event-set__scrw3="_event: click; _target: #sww3; light.intensity=2"
+          event-set__scrw4="_event: click; _target: #sww4; light.intensity=2"
         >
         </a-box>
+
+        <!--Class Notices-->
+        <a-box
+          material="src: #covid1"
+          id="covid_3"
+          position="9.1 4.7 -12"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #ttu1"
+          id="ttu_3"
+          position="9.1 4.7 -8"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src:#covid2"
+          id="covid_4"
+          position="9.1 4.7 -4"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #ttu2"
+          id="ttu_4"
+          position="9.09 4.7 -4"
+          height="5.2"
+          width="0.3"
+          depth="4"
+          shader="flat"
+        >
+        </a-box>
+        <!--Covid Switch-->
+        <a-image
+          src="#covidswitch"
+          position="1 4 13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #closed"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #closed"
+          event-set__scr3="_event: click; _target: #screen3; material.src: #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src: #closed"
+          event-set__scr5="_event: click; _target: #screen5; material.src: #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src: #closed"
+          event-set__scr7="_event: click; _target: #screen7; material.src: #closed"
+          event-set__scr8="_event: click; _target: #screen8; material.src: #closed"
+          event-set__vid1="_event: click; _target: #video; visible:true"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #covid1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #covid2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #covid1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #covid2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #covid1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #covid2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #covid1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #covid2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:false"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:false"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:false"
+          event-set__cha3="_event: click; _target: #chair3; visible:false"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:false"
+          event-set__cha7="_event: click; _target: #chair7; visible:false"
+          event-set__cha8="_event: click; _target: #chair8; visible:false"
+          event-set__cha9="_event: click; _target: #chair9; visible:false"
+          event-set__cha10="_event: click; _target: #chair10; visible:false"
+          event-set__cha11="_event: click; _target: #chair11; visible:false"
+          event-set__cha12="_event: click; _target: #chair12; visible:false"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:false"
+          event-set__tab3="_event: click; _target: #table3; visible:false"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:false"
+          event-set__mann="_event: click; _target: #mann; visible:false"
+          event-set__enter="_event: click; _target: #enter; visible:true"
+          event-set__exit="_event: click; _target: #exit; visible:true"
+        >
+        </a-image>
+
+        <a-image
+          src="#normalswitch"
+          position="-1 4 13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #lec"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #welcome"
+          event-set__scr3="_event: click; _target: #screen3; material.src:  #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src:  #welcome"
+          event-set__scr5="_event: click; _target: #screen5; material.src:  #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src:  #welcome"
+          event-set__scr7="_event: click; _target: #screen7; material.src:  #welcome"
+          event-set__scr8="_event: click; _target: #screen8; material.src:  #welcome"
+          event-set__vid1="_event: click; _target: #video; visible:false"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #ttu1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #ttu2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #ttu1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #ttu2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #ttu1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #ttu2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #ttu1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #ttu2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:true"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:true"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:true"
+          event-set__cha3="_event: click; _target: #chair3; visible:true"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:true"
+          event-set__cha7="_event: click; _target: #chair7; visible:true"
+          event-set__cha8="_event: click; _target: #chair8; visible:true"
+          event-set__cha9="_event: click; _target: #chair9; visible:true"
+          event-set__cha10="_event: click; _target: #chair10; visible:true"
+          event-set__cha11="_event: click; _target: #chair11; visible:true"
+          event-set__cha12="_event: click; _target: #chair12; visible:true"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:true"
+          event-set__tab3="_event: click; _target: #table3; visible:true"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:true"
+          event-set__mann="_event: click; _target: #mann; visible:true"
+          event-set__enter="_event: click; _target: #enter; visible:false"
+          event-set__exit="_event: click; _target: #exit; visible:false"
+        >
+        </a-image>
 
         <!--White Board-->
         <a-box
@@ -531,6 +744,7 @@
           ><a-entity rotate="90 270 90">
             <!--Video 16:9-->
             <a-video
+              id="video"
               src="#lectures"
               width="8"
               height="4.5"
@@ -542,73 +756,228 @@
                 src="player"
                 position="0 -3 0"
                 play-pause
-              ></a-image
-              >-->
-            </a-video></a-entity
-          >
+              ></a-image>
+            </a-video>
+          </a-entity>
         </a-box>
 
         <a-entity
-          animation="property: position; to: 5 0 0; dur: 15000;  loop: true; dir:alternate; easing: linear"
+          animation="property: position; to: 5 0 0; dur: 50000;  loop: true; dir:alternate; easing: linear"
         >
           <a-entity
+            id="mann"
             gltf-model="#man"
             rotation="0 90 0"
-            scale="0.7 1.0 0.7"
+            scale="0.87 1.45 0.87"
             rotation="0 0 0"
-            animation="property: rotation; to: 0 270 0; easing: linear;loop: true; dur: 15000; dir:alternate "
-            position="3 0 5 "
-            rotation="0 0 0"
+            animation="property: rotation; to: 0 270 0; easing: linear;loop: true; dur: 50000; dir:alternate "
+            position="3 -1.2 5 "
             static-body
           >
           </a-entity>
         </a-entity>
 
         <a-entity
-          gltf-model="#class"
+          gltf-model="#desk"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-5.6 0 1 "
+          scale="0.65 0.6 0.65"
+          position="5.7 -1.4 14.8"
+        >
+          <!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="2 4 1" rotation="0 -45 0"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#lec"
+                id="lecture_Switch"
+                sound="src: #lecture; on: click"
+                position="0 0 -0.051"
+                width="1.1"
+                height="0.8"
+                rotation="0 180 0"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          id="chair1"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2  1 "
           static-body
         ></a-entity>
 
         <a-entity
-          gltf-model="#class"
+          id="chair2"
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-2 0 1"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 1"
           static-body
         ></a-entity>
 
         <a-entity
-          gltf-model="#class"
+          id="chair3"
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-5.6 0 6"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2 6"
           static-body
         ></a-entity>
 
         <a-entity
-          gltf-model="#class"
+          id="chair4"
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-2 0 6"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 6"
           static-body
         ></a-entity>
 
         <a-entity
-          gltf-model="#class"
+          id="chair5"
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-5.6 0 11"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2  11"
           static-body
         ></a-entity>
 
         <a-entity
-          gltf-model="#class"
+          id="chair6"
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="2 2 2"
-          position="-2 0 11"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 11"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair7"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2  2"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair8"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 2"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair9"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2 7"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair10"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 7"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair11"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.6 -0.2  12"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="chair12"
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-3 -0.2 12"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table1"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.0 -0.3  2"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table2"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-2.4 -0.3  2"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table3"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.0 -0.3 7"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table4"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-2.4 -0.3  7"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table5"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-6.0 -0.3  12"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          id="table6"
+          gltf-model="#table"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="-2.4 -0.3 12"
           static-body
         ></a-entity>
 
@@ -625,13 +994,12 @@
           position="0 8 0"
           static-body
         >
-          <!-- <a-entity position="5 -0.4 9">
+          <a-entity position="5 -0.4 9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sww1"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -639,10 +1007,9 @@
           <a-entity position="5 -0.4 -9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sww2"
+              light="type: point; color: #FFF; intensity:2; distance: 10; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -650,10 +1017,9 @@
           <a-entity position="-5 -0.4 9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sww3"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -661,14 +1027,21 @@
           <a-entity position="-5 -0.4 -9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 5; distance: 10; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sww4"
+              light="type: point; color: #FFF; intensity:2; distance: 25; 
+              position: 0 -1 0"
             >
             </a-entity>
-          </a-entity>-->
+          </a-entity>
+
+          <a-entity
+            gltf-model="#fan"
+            rotation="180 0 0"
+            scale="0.8 0.8 0.8"
+            position="-3 3 7"
+          ></a-entity>
         </a-box>
+
         <a-box
           material="src: #roof;
                            repeat: 30 20;
@@ -870,7 +1243,7 @@
           roughness="0.5"
           opacity="0.7"
           animation="property: position; to:4 6 -14.5; easing: linear; dur: 3000; startEvents: fusing"
-          animation__2="property: position; to: 4 4 14.75; easing: linear; dur: 3000;startEvents: click"
+          animation__2="property: position; to: 4 4 -14.75; easing: linear; dur: 3000;startEvents: click"
           static-body
         >
         </a-box>
@@ -996,6 +1369,7 @@
         </a-box>
 
         <a-box
+          id="glasswall1"
           height="8"
           width="1"
           depth="5"
@@ -1113,7 +1487,7 @@
       </a-entity>
 
       <!-- Building 2 -->
-      <a-entity position="-25 0 -25">
+      <a-entity position="-25 0.1 -25">
         <a-box
           material="src: #classTile;
                    repeat: 30 20;
@@ -1129,14 +1503,779 @@
         >
         </a-box>
 
+        <!--Covid Enter and Exit Switches-->
+        <a-image
+          id="enter"
+          src="#enter"
+          position="10.1 5 12.5"
+          rotation="0 180 0"
+          visible="false"
+        >
+        </a-image>
+        <a-image
+          id="exit"
+          src="#exit"
+          position="9.1 5 -7.5"
+          rotation="0 180 0"
+          visible="false"
+        >
+        </a-image>
+
+        <!--light switch-->
+        <a-box
+          material="src: #lightswitch"
+          id="lightswitch"
+          position="9.1 5 9.5"
+          height="0.6"
+          width="1"
+          depth="0.5"
+          shader="flat"
+          event-set__swcr1="_event: mouseenter; _target: #sw1; 	light.intensity=0"
+          event-set__scwr2="_event: mouseenter; _target: #sw2; light.intensity=0"
+          event-set__scrw3="_event: mouseenter; _target: #sw3; light.intensity=0"
+          event-set__scrw4="_event: mouseenter; _target: #sw4; light.intensity=0"
+          event-set__swcr1="_event: click; _target: #sw1; 	light.intensity=2"
+          event-set__scwr2="_event: click; _target: #sw2; light.intensity=2"
+          event-set__scrw3="_event: click; _target: #sw3; light.intensity=2"
+          event-set__scrw4="_event: click; _target: #sw4; light.intensity=2"
+        >
+        </a-box>
+
+        <!--Navigation Aid-->
+        <a-image
+          src="#footsteps"
+          position="0 5 -12.5"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <a-image
+          src="#footsteps"
+          position="0 5 0"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <a-image
+          src="#footsteps"
+          position="0 5 12.5"
+          checkpoint="offset: 0 -3.5 0.5"
+          look-at="#cam-rig"
+          opacity="0.3"
+        >
+        </a-image>
+
+        <!--Covid Switch-->
+        <a-image
+          src="#covidswitch"
+          position="1 4 13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #closed"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #closed"
+          event-set__scr3="_event: click; _target: #screen3; material.src: #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src: #closed"
+          event-set__scr5="_event: click; _target: #screen5; material.src: #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src: #closed"
+          event-set__scr7="_event: click; _target: #screen7; material.src: #closed"
+          event-set__scr8="_event: click; _target: #screen8; material.src: #closed"
+          event-set__vid1="_event: click; _target: #video; visible:false"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #covid1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #covid2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #covid1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #covid2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #covid1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #covid2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #covid1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #covid2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:false"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:false"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:false"
+          event-set__cha3="_event: click; _target: #chair3; visible:false"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:false"
+          event-set__cha7="_event: click; _target: #chair7; visible:false"
+          event-set__cha8="_event: click; _target: #chair8; visible:false"
+          event-set__cha9="_event: click; _target: #chair9; visible:false"
+          event-set__cha10="_event: click; _target: #chair10; visible:false"
+          event-set__cha11="_event: click; _target: #chair11; visible:false"
+          event-set__cha12="_event: click; _target: #chair12; visible:false"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:false"
+          event-set__tab3="_event: click; _target: #table3; visible:false"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:false"
+          event-set__mann="_event: click; _target: #mann; visible:false"
+          event-set__enter="_event: click; _target: #enter; visible:true"
+          event-set__exit="_event: click; _target: #exit; visible:true"
+        >
+        </a-image>
+
+        <a-image
+          src="#normalswitch"
+          position="-1 4 13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #lec"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #welcome"
+          event-set__scr3="_event: click; _target: #screen3; material.src:  #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src:  #welcome"
+          event-set__scr5="_event: click; _target: #screen5; material.src:  #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src:  #welcome"
+          event-set__scr7="_event: click; _target: #screen7; material.src:  #welcome"
+          event-set__scr8="_event: click; _target: #screen8; material.src:  #welcome"
+          event-set__vid1="_event: click; _target: #video; visible:false"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #ttu1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #ttu2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #ttu1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #ttu2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #ttu1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #ttu2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #ttu1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #ttu2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:true"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:true"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:true"
+          event-set__cha3="_event: click; _target: #chair3; visible:true"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:true"
+          event-set__cha7="_event: click; _target: #chair7; visible:true"
+          event-set__cha8="_event: click; _target: #chair8; visible:true"
+          event-set__cha9="_event: click; _target: #chair9; visible:true"
+          event-set__cha10="_event: click; _target: #chair10; visible:true"
+          event-set__cha11="_event: click; _target: #chair11; visible:true"
+          event-set__cha12="_event: click; _target: #chair12; visible:true"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:true"
+          event-set__tab3="_event: click; _target: #table3; visible:true"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:true"
+          event-set__mann="_event: click; _target: #mann; visible:true"
+          event-set__enter="_event: click; _target: #enter; visible:false"
+          event-set__exit="_event: click; _target: #exit; visible:false"
+        >
+        </a-image>
+
+        <!--Covid Switch-->
+        <a-image
+          src="#covidswitch"
+          position="1 4 -13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #closed"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #closed"
+          event-set__scr3="_event: click; _target: #screen3; material.src: #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src: #closed"
+          event-set__scr5="_event: click; _target: #screen5; material.src: #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src: #closed"
+          event-set__scr7="_event: click; _target: #screen7; material.src: #closed"
+          event-set__scr8="_event: click; _target: #screen8; material.src: #closed"
+          event-set__vid1="_event: click; _target: #video; visible:false"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #covid1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #covid2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #covid1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #covid2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #covid1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #covid2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #covid1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #covid2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:false"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:false"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:false"
+          event-set__cha3="_event: click; _target: #chair3; visible:false"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:false"
+          event-set__cha7="_event: click; _target: #chair7; visible:false"
+          event-set__cha8="_event: click; _target: #chair8; visible:false"
+          event-set__cha9="_event: click; _target: #chair9; visible:false"
+          event-set__cha10="_event: click; _target: #chair10; visible:false"
+          event-set__cha11="_event: click; _target: #chair11; visible:false"
+          event-set__cha12="_event: click; _target: #chair12; visible:false"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:false"
+          event-set__tab3="_event: click; _target: #table3; visible:false"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:false"
+          event-set__mann="_event: click; _target: #mann; visible:false"
+          event-set__enter="_event: click; _target: #enter; visible:true"
+          event-set__exit="_event: click; _target: #exit; visible:true"
+        >
+        </a-image>
+
+        <a-image
+          src="#normalswitch"
+          position="-1 4 -13.9"
+          height="5"
+          width="1.5"
+          depth="0.3"
+          rotation="0 180 0"
+          event-set__lec1="_event: click; _target: #lecture_Switch; material.src: #lec"
+          event-set__scr1="_event: click; _target: #screen1; material.src: #welcome"
+          event-set__scr2="_event: click; _target: #screen2; material.src: #welcome"
+          event-set__scr3="_event: click; _target: #screen3; material.src:  #welcome"
+          event-set__scr4="_event: click; _target: #screen4; material.src:  #welcome"
+          event-set__scr5="_event: click; _target: #screen5; material.src:  #welcome"
+          event-set__scr6="_event: click; _target: #screen6; material.src:  #welcome"
+          event-set__scr7="_event: click; _target: #screen7; material.src:  #welcome"
+          event-set__scr8="_event: click; _target: #screen8; material.src:  #welcome"
+          event-set__vid1="_event: click; _target: #video; visible:false"
+          event-set__cov1="_event: click; _target: #covid_1; material.src: #ttu1"
+          event-set__cov2="_event: click; _target: #covid_2; material.src: #ttu2"
+          event-set__cov3="_event: click; _target: #covid_3; material.src: #ttu1"
+          event-set__cov4="_event: click; _target: #covid_4; material.src: #ttu2"
+          event-set__ttu1="_event: click; _target: #ttu_1; material.src: #ttu1"
+          event-set__ttu2="_event: click; _target: #ttu_2; material.src: #ttu2"
+          event-set__ttu3="_event: click; _target: #ttu_3; material.src: #ttu1"
+          event-set__ttu4="_event: click; _target: #ttu_4; material.src: #ttu2"
+          event-set__gla1="_event: click; _target: #glasswall1; visible:true"
+          event-set__gla2="_event: click; _target: #glasswall2; visible:true"
+          event-set__cha1="_event: click; _target: #chair1; visible:true"
+          event-set__cha2="_event: click; _target: #chair2; visible:true"
+          event-set__cha3="_event: click; _target: #chair3; visible:true"
+          event-set__cha4="_event: click; _target: #chair4; visible:true"
+          event-set__cha5="_event: click; _target: #chair5; visible:true"
+          event-set__cha6="_event: click; _target: #chair6; visible:true"
+          event-set__cha7="_event: click; _target: #chair7; visible:true"
+          event-set__cha8="_event: click; _target: #chair8; visible:true"
+          event-set__cha9="_event: click; _target: #chair9; visible:true"
+          event-set__cha10="_event: click; _target: #chair10; visible:true"
+          event-set__cha11="_event: click; _target: #chair11; visible:true"
+          event-set__cha12="_event: click; _target: #chair12; visible:true"
+          event-set__tab1="_event: click; _target: #table1; visible:true"
+          event-set__tab2="_event: click; _target: #table2; visible:true"
+          event-set__tab3="_event: click; _target: #table3; visible:true"
+          event-set__tab4="_event: click; _target: #table4; visible:true"
+          event-set__tab5="_event: click; _target: #table5; visible:true"
+          event-set__tab6="_event: click; _target: #table6; visible:true"
+          event-set__mann="_event: click; _target: #mann; visible:true"
+          event-set__enter="_event: click; _target: #enter; visible:false"
+          event-set__exit="_event: click; _target: #exit; visible:false"
+        >
+        </a-image>
+
         <a-entity
-          gltf-model="#office"
+          gltf-model="#desk"
+          rotation="0 -90 0"
+          scale="0.65 0.6 0.65"
+          position="9 -1.4 5"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                id="screen1"
+                src="#welcome"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
           rotation="0 90 0"
-          scale="3 3 3"
-          position="0 0 -6.2"
+          scale="0.4 0.4 0.4"
+          position="4.2 0 9.3"
           static-body
         ></a-entity>
 
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 90 0"
+          scale="0.65 0.6 0.65"
+          position="-9 -1.4 14.8"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                id="screen2"
+                src="#welcome"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 -90 0"
+          scale="0.4 0.45 0.4"
+          position="-4.2 -0.2 11"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 90 0"
+          scale="0.65 0.6 0.65"
+          position="-9 -1.4 8.9"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                id="screen3"
+                src="#welcome"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 -90 0"
+          scale="0.4 0.45 0.4"
+          position="-4.2 -0.2 5.25"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 90 0"
+          scale="0.65 0.6 0.65"
+          position="-9 -1.4 3"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#welcome"
+                id="screen4"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 -90 0"
+          scale="0.4 0.45 0.4"
+          position="-4.2 -0.2 -0.5"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 90 0"
+          scale="0.65 0.6 0.65"
+          position="-9 -1.4 -2.9"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#welcome"
+                id="screen5"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 -90 0"
+          scale="0.4 0.45 0.4"
+          position="-4.2 -0.2 -4.75"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 -90 0"
+          scale="0.65 0.6 0.65"
+          position="9 -1.4 -14.8"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#welcome"
+                id="screen6"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.45 0.4"
+          position="4.2 -0.2 -10.4"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 -90 0"
+          scale="0.65 0.6 0.65"
+          position="9 -1.4 -4.8"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#welcome"
+                id="screen7"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 90 0"
+          scale="0.4 0.4 0.4"
+          position="4.2 0 -0.9"
+          static-body
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#desk"
+          rotation="0 90 0"
+          scale="0.65 0.6 0.65"
+          position="-9 -1.4 -8.8"
+          ><!-- Computer -->
+          <a-entity position="3.7 6.5 2.5" scale="1.5 3 1"
+            ><a-box
+              color="black"
+              depth="0.3"
+              height="0.1"
+              width="0.5"
+              position="0 0 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.3"
+              width="0.2"
+              position="0 0.2 0"
+            ></a-box>
+            <a-box
+              color="black"
+              depth="0.1"
+              height="0.9"
+              width="1.3"
+              position="0 0.6 0"
+            >
+              <a-image
+                src="#welcome"
+                id="screen8"
+                position="0 0 0.051"
+                width="1.1"
+                height="0.8"
+              ></a-image>
+            </a-box>
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          gltf-model="#Chair"
+          rotation="0 -90 0"
+          scale="0.4 0.45 0.4"
+          position="-4.2 -0.2 -12"
+          static-body
+        ></a-entity>
+
+        <!--Wall Frame-->
+        <a-box
+          material="src: #watson"
+          position="9.1 5.7 -12.5"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+        <a-box
+          material="src: #serwadda"
+          position="-9.1 5.7 -12.5"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #gelfond"
+          position="-9.1 5.7 12.5"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #tommy"
+          position="-9.1 5.7 6.25"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #deptchair"
+          position="-9.1 5.7 0"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #chen"
+          position="-9.1 5.7 -6.25"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #fang"
+          position="9.1 5.7 7.25"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #kimber"
+          position="9.1 5.7 -2.5"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          id="covid_1"
+          material="src: #covid1"
+          position="-9.1 4.7 9.375"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #covid2"
+          id="covid_2"
+          position="-9.1 4.7 -3.125"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #ttu1"
+          id="ttu_1"
+          position="-9.1 4.7 -9.375"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <a-box
+          material="src: #ttu2"
+          id="ttu_2"
+          position="-9.1 4.7 3.125"
+          height="4"
+          width="0.3"
+          depth="2"
+          shader="flat"
+        >
+        </a-box>
+
+        <!--Ceiling-->
         <a-box
           material="src: #ceiling;
                            repeat: 20 30;
@@ -1150,13 +2289,12 @@
           position="0 8 0"
           static-body
         >
-          <!--<a-entity position="5 -0.4 9">
+          <a-entity position="5 -0.4 9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sw1"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -1164,10 +2302,9 @@
           <a-entity position="5 -0.4 -9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sw2"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -1175,10 +2312,9 @@
           <a-entity position="-5 -0.4 9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sw3"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
           </a-entity>
@@ -1186,13 +2322,19 @@
           <a-entity position="-5 -0.4 -9">
             <a-sphere color="red" radius="0.5" opacity="0.9"></a-sphere>
             <a-entity
-              light="type: spot; color: #FFF; intensity: 10; distance: 15; decay: 1"
-              rotation="0 0 90"
-              angle="60"
-              position="0 -0.7 0"
+              id="sw4"
+              light="type: point; color: #FFF; intensity:2; distance: 20; 
+              position: 0 -1 0"
             >
             </a-entity>
-          </a-entity>-->
+          </a-entity>
+
+          <a-entity
+            gltf-model="#fan"
+            rotation="180 0 0"
+            scale="0.8 0.8 0.8"
+            position="-3 3 7"
+          ></a-entity>
         </a-box>
         <a-box
           material="src: #roof;
@@ -1460,6 +2602,7 @@
         </a-box>
 
         <a-box
+          id="glasswall2"
           height="8"
           width="1"
           depth="5"
@@ -1537,7 +2680,7 @@
       </a-entity>
 
       <!-- Car Park  1-->
-      <a-entity position="25 0 -25">
+      <a-entity position="25 0.15 -25">
         <a-box
           material="src: #road;
                              repeat: 4 30;
@@ -1555,7 +2698,7 @@
       </a-entity>
 
       <!-- Car Park 2 -->
-      <a-entity position="-25 0 25">
+      <a-entity position="-25 0.15 25">
         <a-box
           material="src: #road;
                    repeat: 4 30;
@@ -1624,7 +2767,7 @@
       </a-entity>
 
       <!-- Chair 3 -->
-      <a-entity position="11 0 -25">
+      <a-entity position="11 0 -25" rotation="0 180 0">
         <a-box
           material="src: #outsidechair;opacity : 0.9;"
           height="0.2"
